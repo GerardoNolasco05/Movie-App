@@ -1,9 +1,9 @@
-from movie_app import MovieApp
-from storage_json import StorageJson  # or from storage_csv import StorageCsv
+from app.movie_app import MovieApp
+from storage.storage_csv import StorageJson
 
 def main():
     # Choose storage type (JSON or CSV)
-    storage = StorageJson('movies.json')  # or StorageCsv('movies.csv')
+    storage = StorageJson('data/movies.json')  # or StorageCsv('movies.csv')
     movie_app = MovieApp(storage)
     movie_app.run()
 

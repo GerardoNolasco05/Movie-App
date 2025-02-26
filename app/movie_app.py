@@ -180,45 +180,38 @@ class MovieApp:
             print(f"{movie}: {details['rating']}")
 
     def _command_generate_website(self):
-        """
-        Generates an HTML file displaying the stored movies.
-        It replaces the placeholders in the template with real movie data.
-        """
+        """Generates and saves a webpage based on the movie collection."""
         try:
-            # Load the HTML template
-            with open("index_template.html", "r") as template_file:
+            # Open the template file from the 'static' directory
+            with open('static/index_template.html', 'r') as template_file:
                 template_content = template_file.read()
 
-            # Get movies from storage
+            # Create the movie grid HTML based on the movie collection
             movies = self._storage.list_movies()
+            movie_grid = ""
 
-            # Generate the movie grid HTML
-            movie_grid_html = ""
             for title, details in movies.items():
-                poster_url = details.get("poster", "https://via.placeholder.com/128x193?text=No+Image")
-                movie_grid_html += f"""
-                <li>
-                    <div class="movie">
-                        <img class="movie-poster" src="{poster_url}" alt="{title} Poster">
+                movie_item = f'''
+                    <li class="movie">
+                        <img class="movie-poster" src="{details['poster']}" alt="{title} poster"/>
                         <div class="movie-title">{title}</div>
                         <div class="movie-year">{details['year']}</div>
-                    </div>
-                </li>
-                """
+                    </li>
+                '''
+                movie_grid += movie_item
 
-            # Replace placeholders in the template
-            template_content = template_content.replace("__TEMPLATE_TITLE__", "My Movie App")
-            template_content = template_content.replace("__TEMPLATE_MOVIE_GRID__", movie_grid_html)
+            # Replace the placeholders in the template
+            webpage_content = template_content.replace("__TEMPLATE_TITLE__", "My Movie App")
+            webpage_content = webpage_content.replace("__TEMPLATE_MOVIE_GRID__", movie_grid)
 
-            # Write the final index.html file
-            with open("index.html", "w") as output_file:
-                output_file.write(template_content)
+            # Save the generated HTML content in the 'static' directory
+            with open('static/index.html', 'w') as output_file:
+                output_file.write(webpage_content)
 
             print("Website was generated successfully.")
 
-            # Open the generated website automatically
-            webbrowser.open("index.html")
-
+        except FileNotFoundError:
+            print("Error: Template file not found in the 'static' directory.")
         except Exception as e:
             print(f"Error generating website: {e}")
 

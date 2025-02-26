@@ -1,0 +1,12 @@
+{
+    "Dracula": {
+        "rating": "7.4",
+        "year": "1931",
+        "poster": "https://m.media-amazon.com/images/M/MV5BZTg2YzcxODUtYTQ2Ny00ODY0LWI2MGItNWNkMjM3YjQ1Y2EwXkEyXkFqcGc@._V1_SX300.jpg"
+    },
+    "Harry Potter and the Deathly Hallows: Part 2": {
+        "rating": "8.1",
+        "year": "2011",
+        "poster": "https://m.media-amazon.com/images/M/MV5BOTA1Mzc2N2ItZWRiNS00MjQzLTlmZDQtMjU0NmY1YWRkMGQ4XkEyXkFqcGc@._V1_SX300.jpg"
+    }
+}
