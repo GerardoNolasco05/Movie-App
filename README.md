@@ -19,4 +19,4 @@ Why Use This App?
 Eliminates the need to manually input movie details.
 Provides easy access to movie ratings and statistics.
 Generates a beautiful movie collection website automatically.
-Enjoy managing and showcasing your movie collection effortlessly! 🎥🍿
+Enjoy managing and showcasing your movie collection effortlessly! 
