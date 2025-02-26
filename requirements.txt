@@ -1,0 +1,8 @@
+requests
+json
+csv
+os
+statistics
+random
+difflib
+webbrowser
