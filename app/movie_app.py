@@ -2,7 +2,10 @@ import requests
 import statistics
 import random
 from difflib import get_close_matches
-import webbrowser
+import os
+from dotenv import load_dotenv
+
+
 
 class MovieApp:
     def __init__(self, storage):
@@ -32,8 +35,10 @@ class MovieApp:
         """
         movie_title = input("Enter new movie name: ")
 
+        # Load environment variables from the .env file in the parent directory
+        load_dotenv(os.path.join(os.path.dirname(__file__), '.env'))
         # Make the API request to fetch movie details
-        api_key = "36640c5b"  # Replace with your actual OMDb API key
+        api_key = os.getenv("OMDB_API_KEY")  # Securely get API key from environment variable
         url = f"http://www.omdbapi.com/?apikey={api_key}&t={movie_title}"
 
         try:
@@ -48,9 +53,10 @@ class MovieApp:
                     # Movie found, extracting details
                     title = data["Title"]
                     year = data["Year"]
-                    rating = data.get("imdbRating", "N/A")  # IMDb rating, might not be available for all movies
-                    poster_url = data.get("Poster", "N/A")  # Poster image URL, might not be available for all movies
-
+                    # IMDb rating, might not be available for all movies
+                    rating = data.get("imdbRating", "N/A")
+                    # Poster image URL, might not be available for all movies
+                    poster_url = data.get("Poster", "N/A")
                     # Save the movie to the storage
                     movie_data = {
                         "rating": rating,
@@ -70,8 +76,8 @@ class MovieApp:
 
         except requests.exceptions.RequestException as e:
             # Handle any network errors (e.g., no internet connection, DNS resolution error)
-            print(f"Error: Failed to connect to the OMDb API. Please check your internet connection or try again later.")
-            print(f"Details: {e}")
+            print("Error: Failed to connect to the OMDb API. Please check your internet connection or try again later.")
+            print("Details:", e)
 
     def _command_delete_movie(self):
         """
@@ -81,7 +87,7 @@ class MovieApp:
         if self._storage.delete_movie(movie_title):
             print(f"Movie '{movie_title}' successfully deleted")
         else:
-            print(f"Movie{movie_title} doesn't exist!")
+            print(f"Movie {movie_title} doesn't exist!")
 
     def _command_update_movie(self):
         """
@@ -141,7 +147,6 @@ class MovieApp:
             movie = random.choice(list(movies.keys()))
             print(f"Your movie for tonight: {movie}, it's rated {movies[movie]['rating']}")
 
-
     def _command_search_movie(self) -> None:
         """Private method to search for a movie."""
         search_query = input("Enter part of movie name: ").lower()
@@ -182,8 +187,8 @@ class MovieApp:
     def _command_generate_website(self):
         """Generates and saves a webpage based on the movie collection."""
         try:
-            # Open the template file from the 'static' directory
-            with open('static/index_template.html', 'r') as template_file:
+            # Open the template file from the 'static' directory with explicit encoding
+            with open('static/index_template.html', 'r', encoding='utf-8') as template_file:
                 template_content = template_file.read()
 
             # Create the movie grid HTML based on the movie collection
@@ -230,8 +235,6 @@ class MovieApp:
         print("7. Search movie")
         print("8. Movies sorted by rating")
         print("9. Generate Website")
-
-
 
     def run(self):
         """

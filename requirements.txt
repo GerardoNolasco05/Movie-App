@@ -6,3 +6,4 @@ statistics
 random
 difflib
 webbrowser
+dotenv
